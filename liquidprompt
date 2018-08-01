@@ -1689,14 +1689,33 @@ else
     _lp_time() { : ; }
 fi
 
+######################
+# Docker Swarm Label #
+######################
+
+LP_DOCKER_HOST=""
+_lp_docker_host() {
+    if [[ $DOCKER_HOST == $DEV_SWARM_HOST ]]
+    then
+        LP_DOCKER_HOST="[${LP_COLOR_SU}DEV${NO_COL}] "
+    elif [[ $DOCKER_HOST == $PROD_SWARM_HOST ]]
+    then
+        LP_DOCKER_HOST="[${LP_COLOR_ERR}PROD${NO_COL}] "
+    else
+        LP_DOCKER_HOST=""
+    fi
+}
+
 
 ########################
 # Construct the prompt #
 ########################
 
-
 _lp_set_prompt()
 {
+    # determine our docker host
+    _lp_docker_host
+
     # Display the return value of the last command, if different from zero
     # As this get the last returned code, it should be called first
     local -i err=$?
@@ -1852,7 +1871,7 @@ _lp_set_prompt()
         PS1+="${LP_VCS}"
 
         # add return code and prompt mark
-        PS1+="${LP_RUNTIME}${LP_ERR}${LP_MARK_PREFIX}${LP_COLOR_MARK}${LP_MARK}${LP_PS1_POSTFIX}"
+        PS1+="${LP_RUNTIME}${LP_ERR}${LP_MARK_PREFIX}${LP_COLOR_MARK}${LP_DOCKER_HOST}${LP_MARK}${LP_PS1_POSTFIX}"
 
         # "invisible" parts
         # Get the current prompt on the fly and make it a title
