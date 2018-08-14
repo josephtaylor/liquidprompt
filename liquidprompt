@@ -1700,7 +1700,7 @@ _lp_docker_host() {
         LP_DOCKER_HOST="[${LP_COLOR_SU}DEV${NO_COL}] "
     elif [[ $DOCKER_HOST == $PROD_SWARM_HOST ]]
     then
-        LP_DOCKER_HOST="[${LP_COLOR_ERR}PROD${NO_COL}] "
+        LP_DOCKER_HOST="[${LP_COLOR_MARK_ROOT}*****PROD*****${NO_COL}] "
     else
         LP_DOCKER_HOST=""
     fi
