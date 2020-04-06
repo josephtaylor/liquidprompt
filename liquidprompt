@@ -1709,6 +1709,21 @@ _lp_docker_host() {
     fi
 }
 
+######################
+# Kubernetes Label #
+######################
+LP_KUBERNETES_HOST=""
+_lp_kubernetes_host() {
+    if [[ $KUBECONFIG == $STAGING_KUBECONFIG ]]
+    then
+        LP_KUBERNETES_HOST="[${LP_COLOR_SU}STAGING K8S${NO_COL}] "
+    elif [[ $KUBECONFIG == $PROD_KUBECONFIG ]]
+    then
+        LP_KUBERNETES_HOST="[${LP_COLOR_MARK_ROOT}*****PROD K8S*****${NO_COL}] "
+    else
+        LP_KUBERNETES_HOST=""
+    fi
+}
 
 ########################
 # Construct the prompt #
@@ -1718,6 +1733,8 @@ _lp_set_prompt()
 {
     # determine our docker host
     _lp_docker_host
+    # determine our kubeconfig host
+    _lp_kubernetes_host
 
     # Display the return value of the last command, if different from zero
     # As this get the last returned code, it should be called first
@@ -1874,7 +1891,7 @@ _lp_set_prompt()
         PS1+="${LP_VCS}"
 
         # add return code and prompt mark
-        PS1+="${LP_RUNTIME}${LP_ERR}${LP_MARK_PREFIX}${LP_COLOR_MARK}${LP_DOCKER_HOST}${LP_MARK}${LP_PS1_POSTFIX}"
+        PS1+="${LP_RUNTIME}${LP_ERR}${LP_MARK_PREFIX}${LP_COLOR_MARK}${LP_DOCKER_HOST}${LP_KUBERNETES_HOST}${LP_MARK}${LP_PS1_POSTFIX}"
 
         # "invisible" parts
         # Get the current prompt on the fly and make it a title
