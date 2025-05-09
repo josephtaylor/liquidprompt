@@ -1720,6 +1720,9 @@ _lp_kubernetes_host() {
     elif [[ $KUBECONFIG == $PROD_KUBECONFIG ]]
     then
         LP_KUBERNETES_HOST="[${LP_COLOR_MARK_ROOT}*****PROD K8S*****${NO_COL}] "
+	elif [[ $KUBECONFIG == $DANGERZONE_KUBECONFIG ]]
+	then
+		LP_KUBERNETES_HOST="[${LP_COLOR_MARK_ROOT}*****PROD K8S DANGER-FUCKING-ZONE *****${NO_COL}] "
     else
         LP_KUBERNETES_HOST=""
     fi
